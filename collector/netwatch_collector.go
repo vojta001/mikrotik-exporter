@@ -2,6 +2,7 @@ package collector
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -90,6 +91,6 @@ func (c *netwatchCollector) collectMetricForProperty(property, host, comment str
 				"error":    fmt.Errorf("unexpected netwatch status value"),
 			}).Error("error parsing netwatch metric value")
 		}
-		ctx.ch <- prometheus.MustNewConstMetric(desc, prometheus.CounterValue, numericValue, ctx.device.Name, ctx.device.Address, host, comment)
+		ctx.ch <- prometheus.MustNewConstMetric(desc, prometheus.CounterValue, numericValue, ctx.device.Name, ctx.device.Address, host, strconv.QuoteToASCII(comment))
 	}
 }
